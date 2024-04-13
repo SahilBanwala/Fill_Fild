@@ -1,0 +1,88 @@
+import React, { useState } from "react";
+import { HiMenuAlt3 } from "react-icons/hi";
+import { MdOutlineDashboard } from "react-icons/md";
+import { RiSettings4Line } from "react-icons/ri";
+import { TbReportAnalytics } from "react-icons/tb";
+import { AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
+import { FiMessageSquare, FiFolder, FiShoppingCart } from "react-icons/fi";
+import { Link } from "react-router-dom";
+
+const Test = ({ onAddActorClick, onAddMovieClick }) => {
+  const menus = [
+    { name: "Home", link: "/", icon: MdOutlineDashboard },
+    { name: "Movies", link: "/movies", icon: AiOutlineUser },
+    { name: "Actor", link: "/actors", icon: FiMessageSquare  },
+    { name: "Create", link: "/", icon: TbReportAnalytics, margin: true },
+    { name: "Add Move", link: "/", icon: FiMessageSquare,onClick : onAddMovieClick },
+    { name: "Add Actor", link: "/", icon: FiMessageSquare,onClick:onAddActorClick },
+    { name: "Logout", link: "/", icon: RiSettings4Line },
+  ];
+  const [open, setOpen] = useState(true);
+  return (
+    <section className="flex gap-6  ">
+      <div
+        className={`bg-[#0f172a] min-h-screen  ${
+          open ? "w-72" : "w-16"
+        } duration-500 text-gray-100 px-4`}
+      >
+        <div className="py-3 flex justify-end">
+          <HiMenuAlt3
+            size={26}
+            className="cursor-pointer"
+            onClick={() => setOpen(!open)}
+          />
+        </div>
+        <div class="my-2 bg-gray-600 h-[1px]"></div>
+        <div className="mt-4 flex flex-col gap-4 relative">
+           <div
+         class={`p-2.5 flex items-center rounded-md px-4 duration-300 cursor-pointer bg-gray-700 text-white ${
+          !open && "opacity-0 translate-x-28 overflow-hidden"
+        } `}
+       >
+         <i class="bi bi-search text-sm"></i>
+         <input
+           type="text"
+       placeholder="Search"
+           class="text-[15px] ml-4 w-full bg-transparent focus:outline-none"
+         />
+       </div>
+          {menus?.map((menu, i) => (
+            <Link
+              to={menu?.link}
+              key={i}
+              className={` ${
+                menu?.margin && "mt-5"
+              } group flex items-center text-sm  gap-3.5 font-medium p-2 hover:bg-gray-800 rounded-md`}
+            >
+              <div onClick = {menu?.onClick} >{React.createElement(menu?.icon, { size: "20" })}</div>
+              <h2
+                onClick = {menu?.onClick}
+                style={{
+                  transitionDelay: `${i + 3}00ms`,
+                }}
+                className={`whitespace-pre duration-500 ${
+                  !open && "opacity-0 translate-x-28 overflow-hidden"
+                }`}
+              >
+                {menu?.name}
+              </h2>
+              
+              <h2
+                className={`${
+                  open && "hidden"
+                } absolute left-48 bg-white font-semibold whitespace-pre text-gray-900 rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:duration-300 group-hover:w-fit  `}
+              >
+                {menu?.name}
+                
+              </h2>
+              
+            </Link>
+          ))}
+        </div>
+      </div>
+      
+    </section>
+  );
+};
+
+export default Test;
